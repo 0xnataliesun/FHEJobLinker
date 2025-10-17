@@ -7,13 +7,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  // Optional: keep FHECounter for reference in local dev
-  const deployedFHECounter = await deploy("FHECounter", {
-    from: deployer,
-    log: true,
-  });
-  console.log(`FHECounter contract: `, deployedFHECounter.address);
-
   // Deploy JobLinker
   const deployedJobLinker = await deploy("JobLinker", {
     from: deployer,
