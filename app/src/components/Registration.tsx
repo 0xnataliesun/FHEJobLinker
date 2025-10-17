@@ -42,6 +42,7 @@ export function Registration() {
   return (
     <div style={{ background: 'white', borderRadius: 8, boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: 16 }}>
       <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: 16 }}>Register Profile</h2>
+      <p>Your data is encrypted by zama.</p>
       <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <label style={{ display: 'flex', flexDirection: 'column' }}>
           <span style={{ fontSize: 14, color: '#374151', marginBottom: 6 }}>Name</span>
