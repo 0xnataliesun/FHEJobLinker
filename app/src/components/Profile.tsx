@@ -97,42 +97,130 @@ export function Profile() {
 
   if (!address) {
     return (
-      <div style={{ background: 'white', borderRadius: 8, boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: 16 }}>
-        <div>Please connect your wallet.</div>
+      <div className="card" style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center', padding: '3rem' }}>
+        <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🔌</div>
+        <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+          Wallet Not Connected
+        </div>
+        <div style={{ color: 'var(--text-secondary)' }}>
+          Please connect your wallet to view your profile
+        </div>
       </div>
     );
   }
 
   if (!exists) {
     return (
-      <div style={{ background: 'white', borderRadius: 8, boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: 16 }}>
-        <div>No profile found. Please register first.</div>
+      <div className="card" style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center', padding: '3rem' }}>
+        <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📝</div>
+        <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+          No Profile Found
+        </div>
+        <div style={{ color: 'var(--text-secondary)' }}>
+          Please register your profile first in the Register tab
+        </div>
       </div>
     );
   }
 
+  const countryNames: Record<string, string> = {
+    '1': '🇺🇸 United States',
+    '2': '🇨🇳 China',
+    '3': '🇬🇧 United Kingdom',
+    '4': '🇩🇪 Germany',
+    '5': '🇫🇷 France',
+    '6': '🇯🇵 Japan',
+    '7': '🇰🇷 South Korea',
+    '8': '🇨🇦 Canada',
+    '9': '🇦🇺 Australia',
+    '86': '🌍 Other'
+  };
+
   return (
-    <div style={{ background: 'white', borderRadius: 8, boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: 16 }}>
-      <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: 16 }}>My Profile</h2>
-      <div style={{ display: 'grid', gap: 12 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: '#374151' }}>Name</span>
-          <span style={{ fontWeight: 600 }}>{revealed ? name : '***'}</span>
+    <div className="card" style={{ maxWidth: '600px', margin: '0 auto' }}>
+      <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+        <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>👤</div>
+        <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.5rem', background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+          My Profile
+        </h2>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
+          Your encrypted profile information
+        </p>
+      </div>
+
+      <div style={{ display: 'grid', gap: '1.25rem', marginBottom: '2rem' }}>
+        {/* Name Field */}
+        <div style={{ padding: '1.25rem', background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%)', borderRadius: '0.75rem', border: '2px solid var(--card-border)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 600 }}>
+                Name (Public)
+              </div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                {name || '---'}
+              </div>
+            </div>
+            <div style={{ padding: '0.5rem', background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)', borderRadius: '0.5rem' }}>
+              🔓
+            </div>
+          </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: '#374151' }}>Country ID</span>
-          <span style={{ fontWeight: 600 }}>{revealed ? (decCountry ?? '') : '***'}</span>
+
+        {/* Country Field */}
+        <div style={{ padding: '1.25rem', background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%)', borderRadius: '0.75rem', border: '2px solid var(--card-border)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                Country (Encrypted) 🔐
+              </div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                {revealed && decCountry ? countryNames[decCountry] || `Country ${decCountry}` : '•••••••••'}
+              </div>
+            </div>
+            <div style={{ padding: '0.5rem', background: revealed ? 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)' : 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', borderRadius: '0.5rem' }}>
+              {revealed ? '🔓' : '🔒'}
+            </div>
+          </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: '#374151' }}>Expected Salary</span>
-          <span style={{ fontWeight: 600 }}>{revealed ? (decSalary ?? '') : '***'}</span>
-        </div>
-        <div>
-          <button className="decrypt-button" onClick={decrypt} disabled={busy || revealed || !countryHandle || !salaryHandle}>
-            {busy ? 'Decrypting...' : revealed ? 'Decrypted' : 'Decrypt'}
-          </button>
+
+        {/* Salary Field */}
+        <div style={{ padding: '1.25rem', background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%)', borderRadius: '0.75rem', border: '2px solid var(--card-border)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                Expected Salary (Encrypted) 🔐
+              </div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                {revealed && decSalary ? `$${parseInt(decSalary).toLocaleString()}` : '•••••••••'}
+              </div>
+            </div>
+            <div style={{ padding: '0.5rem', background: revealed ? 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)' : 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', borderRadius: '0.5rem' }}>
+              {revealed ? '🔓' : '🔒'}
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Decrypt Button */}
+      {!revealed && (
+        <button
+          className="decrypt-button"
+          onClick={decrypt}
+          disabled={busy || revealed || !countryHandle || !salaryHandle}
+          style={{ width: '100%', padding: '1rem', fontSize: '1rem' }}
+        >
+          {busy ? '⏳ Decrypting...' : '🔓 Decrypt My Profile'}
+        </button>
+      )}
+
+      {revealed && (
+        <div style={{ padding: '1rem', background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)', borderRadius: '0.75rem', textAlign: 'center' }}>
+          <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>✅</div>
+          <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#065f46' }}>
+            Profile successfully decrypted!
+          </div>
+        </div>
+      )}
     </div>
   );
 }
