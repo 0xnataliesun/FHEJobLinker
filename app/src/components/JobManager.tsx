@@ -104,42 +104,93 @@ export function JobManager() {
   };
 
   return (
-    <div style={{ display: 'grid', gap: 16 }}>
-      <div style={{ background: 'white', borderRadius: 8, boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: 16 }}>
-        <h3 style={{ fontSize: '1.125rem', fontWeight: 700, marginBottom: 12 }}>Create Job</h3>
-        <div style={{ display: 'grid', gap: 8, gridTemplateColumns: '1fr 1fr auto' }}>
-          <select value={newCountry} onChange={(e) => setNewCountry(e.target.value)} className="select-input">
-            <option value="">Country</option>
-            <option value="1">USA (1)</option>
-            <option value="2">China (2)</option>
-            <option value="3">UK (3)</option>
-            <option value="4">Germany (4)</option>
-            <option value="5">France (5)</option>
-            <option value="86">Other (86)</option>
-          </select>
-          <input type="number" placeholder="Offer Salary" value={newOffer} onChange={(e) => setNewOffer(e.target.value)} className="text-input" />
-          <button onClick={createJob} disabled={!address || creating || !newCountry || !newOffer} className="submit-button">{creating ? 'Creating...' : 'Create'}</button>
+    <div style={{ display: 'grid', gap: '1.5rem' }}>
+      {/* Create Job Section */}
+      <div className="card">
+        <div style={{ marginBottom: '1.5rem' }}>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem', background: 'linear-gradient(135deg, #6366f1 0%, #10b981 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+            🚀 Post a New Job
+          </h3>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+            Create a job posting with public requirements
+          </p>
+        </div>
+        <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: '1fr 1fr', alignItems: 'end' }}>
+          <label>
+            <span>Country Location</span>
+            <select value={newCountry} onChange={(e) => setNewCountry(e.target.value)} className="select-input">
+              <option value="">Select country</option>
+              <option value="1">🇺🇸 United States</option>
+              <option value="2">🇨🇳 China</option>
+              <option value="3">🇬🇧 United Kingdom</option>
+              <option value="4">🇩🇪 Germany</option>
+              <option value="5">🇫🇷 France</option>
+              <option value="6">🇯🇵 Japan</option>
+              <option value="7">🇰🇷 South Korea</option>
+              <option value="8">🇨🇦 Canada</option>
+              <option value="9">🇦🇺 Australia</option>
+              <option value="86">🌍 Other</option>
+            </select>
+          </label>
+          <label>
+            <span>Salary Offer</span>
+            <input type="number" placeholder="e.g., 100000" value={newOffer} onChange={(e) => setNewOffer(e.target.value)} className="text-input" min="0" />
+          </label>
+          <button onClick={createJob} disabled={!address || creating || !newCountry || !newOffer} className="submit-button" style={{ gridColumn: 'span 2', padding: '0.9rem' }}>
+            {creating ? '⏳ Creating job...' : '✨ Create Job Posting'}
+          </button>
         </div>
       </div>
 
-      <div style={{ background: 'white', borderRadius: 8, boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: 16 }}>
-        <h3 style={{ fontSize: '1.125rem', fontWeight: 700, marginBottom: 12 }}>Jobs</h3>
-        <div style={{ display: 'grid', gap: 12 }}>
+      {/* Jobs List Section */}
+      <div className="card">
+        <div style={{ marginBottom: '1.5rem' }}>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem', background: 'linear-gradient(135deg, #ec4899 0%, #f59e0b 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+            💼 Available Jobs
+          </h3>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+            Browse and apply to jobs that match your profile
+          </p>
+        </div>
+        <div style={{ display: 'grid', gap: '1rem' }}>
           {jobsResult.data && jobsResult.data.map((res, i) => {
             if (!res.result) return null;
             const id = (jobIds as bigint[])[i];
             const [creator, country, offerSalary] = res.result as readonly [string, number, number, bigint];
+            const countryNames: Record<number, string> = {
+              1: '🇺🇸 United States',
+              2: '🇨🇳 China',
+              3: '🇬🇧 United Kingdom',
+              4: '🇩🇪 Germany',
+              5: '🇫🇷 France',
+              6: '🇯🇵 Japan',
+              7: '🇰🇷 South Korea',
+              8: '🇨🇦 Canada',
+              9: '🇦🇺 Australia',
+              86: '🌍 Other'
+            };
             return (
-              <div key={String(id)} style={{ border: '1px solid #e5e7eb', borderRadius: 8, padding: 12 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <div style={{ fontWeight: 600 }}>Job #{String(id)}</div>
-                    <div style={{ fontSize: 14, color: '#374151' }}>Country: {country} • Offer: {offerSalary}</div>
-                    <div style={{ fontSize: 12, color: '#6b7280' }}>Creator: {creator}</div>
+              <div key={String(id)} style={{ border: '2px solid var(--card-border)', borderRadius: '1rem', padding: '1.5rem', background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%)', transition: 'all 0.3s ease' }} onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--primary)'; e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 12px 24px rgba(99, 102, 241, 0.15)'; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--card-border)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+                      Job #{String(id)}
+                    </div>
+                    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 0.8rem', background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)', borderRadius: '0.5rem', fontSize: '0.9rem', fontWeight: 600, color: '#4f46e5' }}>
+                        📍 {countryNames[country] || `Country ${country}`}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 0.8rem', background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)', borderRadius: '0.5rem', fontSize: '0.9rem', fontWeight: 600, color: '#065f46' }}>
+                        💰 ${offerSalary.toLocaleString()}
+                      </div>
+                    </div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+                      Creator: {creator.slice(0, 6)}...{creator.slice(-4)}
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', gap: 8 }}>
-                    <button className="upload-button" onClick={() => apply(id)}>Apply</button>
-                  </div>
+                  <button className="upload-button" onClick={() => apply(id)} style={{ whiteSpace: 'nowrap' }}>
+                    📝 Apply Now
+                  </button>
                 </div>
 
                 {/* Applicants section for creator */}
@@ -150,7 +201,11 @@ export function JobManager() {
             );
           })}
           {!jobsResult.data || jobsResult.data.length === 0 ? (
-            <div style={{ color: '#6b7280' }}>No jobs yet</div>
+            <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📭</div>
+              <div style={{ fontSize: '1.1rem', fontWeight: 600 }}>No jobs available yet</div>
+              <div style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>Be the first to post a job!</div>
+            </div>
           ) : null}
         </div>
       </div>
@@ -169,13 +224,19 @@ function Applicants({ jobId, onEvaluate }: { jobId: bigint, onEvaluate: (jobId: 
   if (!Array.isArray(applicants) || (applicants as string[]).length === 0) return null;
 
   return (
-    <div style={{ marginTop: 12 }}>
-      <div style={{ fontWeight: 600, marginBottom: 6 }}>Applicants</div>
-      <div style={{ display: 'grid', gap: 6 }}>
+    <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '2px dashed var(--card-border)' }}>
+      <div style={{ fontWeight: 700, marginBottom: '1rem', fontSize: '1rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        👥 Applicants ({(applicants as string[]).length})
+      </div>
+      <div style={{ display: 'grid', gap: '0.75rem' }}>
         {(applicants as string[]).map((a) => (
-          <div key={a} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontFamily: 'monospace', fontSize: 12 }}>{a}</span>
-            <button className="decrypt-button" onClick={() => onEvaluate(jobId, a)}>Evaluate</button>
+          <div key={a} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem', background: 'rgba(255, 255, 255, 0.6)', borderRadius: '0.75rem', border: '1px solid var(--card-border)' }}>
+            <span style={{ fontFamily: 'monospace', fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+              {a.slice(0, 10)}...{a.slice(-8)}
+            </span>
+            <button className="decrypt-button" onClick={() => onEvaluate(jobId, a)}>
+              🔍 Evaluate Match
+            </button>
           </div>
         ))}
       </div>
