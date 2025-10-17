@@ -40,34 +40,60 @@ export function Registration() {
   };
 
   return (
-    <div style={{ background: 'white', borderRadius: 8, boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: 16 }}>
-      <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: 16 }}>Register Profile</h2>
-      <p>Your data is encrypted by zama.</p>
-      <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <label style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{ fontSize: 14, color: '#374151', marginBottom: 6 }}>Name</span>
-          <input value={name} onChange={(e) => setName(e.target.value)} className="text-input" required />
+    <div className="card" style={{ maxWidth: '600px', margin: '0 auto' }}>
+      <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '0.5rem', background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+          Register Your Profile
+        </h2>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+          <span style={{ fontSize: '1.25rem' }}>🔒</span>
+          Your data is encrypted by Zama FHE technology
+        </p>
+      </div>
+      <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <label>
+          <span>Your Name (Public)</span>
+          <input value={name} onChange={(e) => setName(e.target.value)} className="text-input" placeholder="Enter your full name" required />
         </label>
-        <label style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{ fontSize: 14, color: '#374151', marginBottom: 6 }}>Country ID</span>
+        <label>
+          <span>Country (Encrypted 🔐)</span>
           <select value={country} onChange={(e) => setCountry(e.target.value)} className="select-input" required>
-            <option value="">Select</option>
-            <option value="1">USA (1)</option>
-            <option value="2">China (2)</option>
-            <option value="3">UK (3)</option>
-            <option value="4">Germany (4)</option>
-            <option value="5">France (5)</option>
-            <option value="86">Other (86)</option>
+            <option value="">Select your country</option>
+            <option value="1">🇺🇸 United States</option>
+            <option value="2">🇨🇳 China</option>
+            <option value="3">🇬🇧 United Kingdom</option>
+            <option value="4">🇩🇪 Germany</option>
+            <option value="5">🇫🇷 France</option>
+            <option value="6">🇯🇵 Japan</option>
+            <option value="7">🇰🇷 South Korea</option>
+            <option value="8">🇨🇦 Canada</option>
+            <option value="9">🇦🇺 Australia</option>
+            <option value="86">🌍 Other</option>
           </select>
         </label>
-        <label style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{ fontSize: 14, color: '#374151', marginBottom: 6 }}>Expected Salary</span>
-          <input type="number" value={salary} onChange={(e) => setSalary(e.target.value)} className="text-input" min="0" required />
+        <label>
+          <span>Expected Salary (Encrypted 🔐)</span>
+          <input
+            type="number"
+            value={salary}
+            onChange={(e) => setSalary(e.target.value)}
+            className="text-input"
+            placeholder="e.g., 80000"
+            min="0"
+            required
+          />
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+            This will be encrypted and only used for matching
+          </span>
         </label>
-        <button type="submit" disabled={busy || isLoading || !address} className="submit-button">
-          {isLoading ? 'Initializing...' : busy ? 'Submitting...' : 'Submit'}
+        <button type="submit" disabled={busy || isLoading || !address} className="submit-button" style={{ marginTop: '0.5rem', width: '100%', padding: '1rem' }}>
+          {isLoading ? '🔄 Initializing encryption...' : busy ? '📤 Submitting profile...' : '✨ Register Profile'}
         </button>
-        {ok && <div className="success-box"><span className="success-title">Profile registered!</span></div>}
+        {ok && (
+          <div className="success-box">
+            <span className="success-title">Profile registered successfully!</span>
+          </div>
+        )}
       </form>
     </div>
   );
