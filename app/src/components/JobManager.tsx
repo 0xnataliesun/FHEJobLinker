@@ -128,7 +128,7 @@ export function JobManager() {
           {jobsResult.data && jobsResult.data.map((res, i) => {
             if (!res.result) return null;
             const id = (jobIds as bigint[])[i];
-            const [creator, country, offerSalary, applicantsCount] = res.result as readonly [string, number, number, bigint];
+            const [creator, country, offerSalary] = res.result as readonly [string, number, number, bigint];
             return (
               <div key={String(id)} style={{ border: '1px solid #e5e7eb', borderRadius: 8, padding: 12 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
