@@ -2,11 +2,11 @@
 pragma solidity ^0.8.24;
 
 import {FHE, euint32, ebool, externalEuint32} from "@fhevm/solidity/lib/FHE.sol";
-import {SepoliaConfig} from "@fhevm/solidity/config/ZamaConfig.sol";
+import {ZamaEthereumConfig} from "@fhevm/solidity/config/ZamaConfig.sol";
 
 /// @title FHE-enabled JobLinker
 /// @notice Users register encrypted profile; employers post jobs; applications are matched privately
-contract JobLinker is SepoliaConfig {
+contract JobLinker is ZamaEthereumConfig {
     struct UserProfile {
         string name; // plaintext name
         euint32 country; // encrypted country id
